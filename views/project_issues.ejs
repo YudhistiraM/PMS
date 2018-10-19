@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="stylesheets/favicon.ico">
+
+  <title>Project Management System</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../../stylesheets/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="../../stylesheets/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../../stylesheets/dashboard.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <script src="../../javascripts/ie-emulation-modes-warning.js"></script>
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button> -->
+      <a class="navbar-brand">Project Management System</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/project">Project</a></li>
+        <li><a href="/profile">Profile</a></li>
+      </ul>
+      <div class="button">
+        <a href="/logout" class="btn btn-link navbar-btn navbar-right">Sign out</a>
+      </div>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="nav nav-sidebar">
+        <li><a href="/project_overview/<%= projectid %>"><b>Overview</b></a></li>
+        <li><a href="/project_activity/<%= projectid %>"><b>Activity</b></a></li>
+      </ul>
+      <ul class="nav nav-sidebar">
+        <li><a href="/project_members/<%= projectid %>"><b>Members</b></a></li>
+        <li class="active"><a href="#"><b>Issues</b></a></li>
+      </ul>
+
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      <h2 class="page-header"><b>Issues</b></h2>
+
+      <h4><b>Fillter</b></h4>
+
+      <form class="" action="" method="get">
+        <input type="hidden" name="page" value="1">
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-md-2">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="blankCheckbox" name="isid" value="true"<%= query.isid ? 'checked' : '' %>> ID
+                </label>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <input type="text" class="form-control" id="id" name="issueid" placeholder="Issue ID" value="<%= query.issueid %>">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="blankCheckbox" name="subname" value="true"<%= query.subname ? 'checked' : '' %>> Subject
+                </label>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <input type="text" class="form-control" id="id" name="subject" placeholder="Subject" value="<%= query.subject %>">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="blankCheckbox" name="ctracker" value="true"<%= query.ctracker ? 'checked' : '' %>> Tracker
+                </label>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <select class="form-control" name="tracker">
+                <option>Chosee The Tracker...</option>
+                <% for (let i = 0; i < trackers.length; i++) { %>
+                  <option name="tracker" value="<%= trackers[i].tracker %>"<%= query.tracker == trackers[i].tracker? 'selected' : '' %>><%= trackers[i].tracker %></option>
+                  <% } %>
+                </select>
+              </div>
+            </div><br/>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="/project_issues/<%= projectid %>" class="btn btn-warning">reset</a>
+          </div>
+        </form>
+
+        <h3><b>Options</b></h3>
+        <form class="" action="../showIssues/<%= projectid %>" method="get">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-2"> Columns
+              </div>
+              <div class="col-md">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="siid" value="true"<%= showissues[0].siid == true ? ' checked' : '' %>> ID
+                    <br/><input type="checkbox" name="sisubject" value="true"<%= showissues[0].sisubject == true ? ' checked' : '' %>> Subject
+                    <br/><input type="checkbox" name="sitracker" value="true"<%= showissues[0].sitracker== true ? ' checked' : '' %>> Tracker
+                    <br/><input type="checkbox" name="sipriority" value="true"<%= showissues[0].sipriority == true ? ' checked' : '' %>> Priority
+                  </label>
+                </div>
+              </div>
+            </div><br/>
+            <button type="submit" class="btn btn-primary">Apply</button>
+          </div>
+        </form>
+        <br/>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <% if(showissues[0].siid == true){%><th><b>Issue ID</b></th><% } %>
+              <% if(showissues[0].sisubject == true){%><th><b>Subject</b></th><% } %>
+              <% if(showissues[0].sitracker == true){%><th><b>Tracker</b></th><% } %>
+              <% if(showissues[0].sipriority == true){%><th><b>priority</b></th><% } %>
+              <% if(showissues[0].siid == true || showissues[0].sisubject == true || showissues[0].tracker || showissues[0].sipriority == true ){%><th><b>Action</b></th><% } %>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(let i = 0; i < dataissues.length; i++){ %>
+              <tr>
+                <% if(showissues[0].siid == true){%><td><%= dataissues[i].issueid %></td><% } %>
+                <% if(showissues[0].sisubject == true){%><td><%= dataissues[i].subject %></td><% } %>
+                <% if(showissues[0].sitracker == true){%><td><%= dataissues[i].tracker %></td><% } %>
+                <% if(showissues[0].sipriority == true){%><td><%= dataissues[i].priority %></td><% } %>
+                <% if(showissues[0].siid == true || showissues[0].sisubject == true || showissues[0].tracker || showissues[0].sipriority == true ){%><td>
+                  <a href="/detail_Projectissues/<%= projectid %>/<%= dataissues[i].issueid %>" class="btn btn-warning">Detail</a>
+                  <a href="/edit_ProjectIssues/<%= projectid %>/edit/<%= dataissues[i].issueid %>" class="btn btn-success">Edit</a>
+                  <a href="/delete_issue/<%= projectid %>/<%= dataissues[i].issueid %>" class="btn btn-danger">Delete</a>
+                </td><% } %>
+                <% } %>
+              </tr>
+
+            </tr>
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <li><% if (pagination.currentPage != 1) { %><a href="<%= pagination.url.replace(`page=${pagination.currentPage}`, `page=${parseInt(pagination.currentPage)-1}`) %>">Previous</a><% } %></li>
+            <% for(let i = 1; i <= pagination.pages; i++){ %>
+              <li class="<%= i == pagination.currentPage ? 'active' : ''; %>"><a href="<%= pagination.url.replace(`page=${pagination.currentPage}`, `page=${i}`) %>"><%= i %></a></li>
+              <% } %>
+              <li><% if(pagination.currentPage !=0 && pagination.pages!=pagination.currentPage && pagination.pages != 0) { %><a href="<%= pagination.url.replace(`page=${pagination.currentPage}`, `page=${parseInt(pagination.currentPage)+1}`) %>">Next</a><% } %></li>
+            </ul>
+          </nav>
+          <a href="/add_ProjectIssues/<%= projectid %>" type="submit" class="btn btn-primary">add</a>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+  </html>

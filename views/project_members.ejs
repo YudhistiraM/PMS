@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="stylesheets/favicon.ico">
+
+  <title>Project Management System</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../stylesheets/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="../stylesheets/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../stylesheets/dashboard.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <script src="../javascripts/ie-emulation-modes-warning.js"></script>
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button> -->
+      <a class="navbar-brand">Project Management System</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/project">Project</a></li>
+        <li><a href="/profile">Profile</a></li>
+      </ul>
+      <div class="button">
+        <a href="/logout" class="btn btn-link navbar-btn navbar-right">Sign out</a>
+      </div>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="nav nav-sidebar">
+        <li><a href="/project_overview/<%= projectId %>"><b>Overview</b></a></li>
+        <li><a href="/project_activity/<%= projectId %>"><b>Activity</b></a></li>
+      </ul>
+      <ul class="nav nav-sidebar">
+        <li class="active"><a href="/project_members/<%= projectId %>"><b>Members</b></a></li>
+        <li><a href="/project_issues/<%= projectId %>"><b>Issues</b></a></li>
+      </ul>
+
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      <h2 class="page-header"><b>Members</b></h2>
+
+      <h4><b>Fillter</b></h4>
+
+      <form class="" action="" method="get">
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-md-2">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="blankCheckbox" name="cid" value="true"<%= query.cid ? ' checked' : '' %>> ID
+                </label>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <input type="text" class="form-control" id="id" name="id" placeholder="ID" value="<%= query.id %>">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="blankCheckbox" name="cname" value="true"<%= query.cname ? ' checked' : '' %>> Name
+                </label>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <input type="text" class="form-control" id="id" name="name" placeholder="Name" value="<%= query.name%>">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" id="blankCheckbox" name="cmember" value="true"<%= query.cmember ? ' checked' : '' %>> Position
+                </label>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <select class="form-control" name="member">
+                <option>Chosee Position...</option>
+                <% for (let i = 0; i < choseePossition.length; i++) { %>
+                  <option name="member" value="<%= choseePossition[i].role %>"  <%= query.member == choseePossition[i].role ? 'selected' : '' %>><%= choseePossition[i].role%></option>
+                  <% } %>
+                </select>
+              </div>
+            </div><br/>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="/project_members/<%= projectId %>" class="btn btn-warning">reset</a>
+          </div>
+        </form>
+
+        <h3><b>Options</b></h3>
+        <form class="" action="../showmembers/<%= projectId %>" method="get">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-2"> Columns
+              </div>
+              <div class="col-md">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="smid" value="true"<%= showmembers[0].smid == true ? ' checked' : '' %>> ID
+                    <br/><input type="checkbox" name="smname" value="true"<%= showmembers[0].smname == true ? ' checked' : '' %>> Name
+                    <br/><input type="checkbox" name="smposition" value="true"<%= showmembers[0].smposition == true ? ' checked' : '' %>> Position
+                  </label>
+                </div>
+              </div>
+            </div><br/>
+            <button type="submit" class="btn btn-primary">Apply</button>
+          </div>
+          <br/>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <% if(showmembers[0].smid == true){%><td><b>ID</b></td><% } %>
+                <% if(showmembers[0].smname == true){%><td><b>Name</b></td><% } %>
+                <% if(showmembers[0].smposition == true){%><td><b>Position</b></td><% } %>
+                <% if(showmembers[0].smposition == true || showmembers[0].smname == true || showmembers[0].smid == true ){%><td><b>Action</b></td><% } %>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(let i = 0; i < dataMembers.length; i++){ %>
+                <tr>
+                  <% if(showmembers[0].smid == true){%><td><%= dataMembers[i].userid %></td><% } %>
+                  <% if(showmembers[0].smname == true){%><td><%= dataMembers[i].fullname %></td><% } %>
+                  <% if(showmembers[0].smposition == true){%><td><%= dataMembers[i].role %></td><% } %>
+                  <% if(showmembers[0].smposition == true || showmembers[0].smname == true || showmembers[0].smid == true ){%><td>
+                    <a href="/edit_Members/<%= projectId %>/<%= dataMembers[i].userid %>" class="btn btn-success">edit</a>
+                    <a href="/delete/<%= projectId %>/<%= dataMembers[i].userid %>" class="btn btn-danger">delete</a>
+                  </td><% } %>
+                  <% } %>
+                </tr>
+              </tr>
+            </tbody>
+          </table>
+          <a href="/add_MemberProject/<%= projectId %>" type="submit" class="btn btn-primary">add</a>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+  <script src="../../dist/js/bootstrap.min.js"></script>
+  <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+  <script src="../../assets/js/vendor/holder.min.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
+</html>
