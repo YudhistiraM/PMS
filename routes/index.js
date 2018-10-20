@@ -178,10 +178,10 @@ module.exports = function(pool){
     // WHERE email = 'ma.yudhistira@gmail.com'
     let sql = `SELECT userid, email, password FROM users WHERE email = '${email}'`;
     pool.query(sql, (err, data) => {
-      let sql1 = `SELECT distinct role, type FROM members WHERE userid = ${data.rows[0].userid}`;
+      let sql1 = `SELECT userid, role, type FROM jabatan WHERE userid = ${data.rows[0].userid}`;
       pool.query(sql1, (err, dataMembers) => {
-        // console.log("Dinda:", email);
-        // console.log("Dinda:", sql1);
+        console.log("Data:", data.rows);
+        console.log("Data1:", dataMembers.rows);
         if(err) throw err;
         res.render('profile', {dataMembers:dataMembers.rows, data: data.rows, email: email});
       })
@@ -196,10 +196,10 @@ module.exports = function(pool){
 
     let sql = `UPDATE users SET password = '${pass}' WHERE users.email = '${email}'`;
     pool.query(sql, (err) => {
-      // console.log("Update:", sql);
-      let sql1 = `UPDATE members SET role = '${role}', type= '${type}' WHERE members.userid IN (SELECT userid FROM users WHERE email = '${email}')`;
+      console.log("Update:", sql);
+      let sql1 = `UPDATE jabatan SET role = '${role}', type= '${type}' WHERE jabatan.userid IN (SELECT userid FROM users WHERE email = '${email}')`;
       pool.query(sql1, (err) => {
-        // console.log("Update:", sql1);
+        console.log("Update2:", sql1);
         res.redirect('/project')
       })
     })
